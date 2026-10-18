@@ -1,0 +1,25 @@
+:root {
+  --siae-color-bg: #020617;
+  --siae-color-surface: #0f172a;
+  --siae-color-card: #111827;
+  --siae-color-primary: #22d3ee;
+  --siae-color-primary-strong: #06b6d4;
+  --siae-color-accent: #f59e0b;
+  --siae-color-success: #22c55e;
+  --siae-color-danger: #ef4444;
+  --siae-color-text: #e2e8f0;
+  --siae-color-text-muted: #94a3b8;
+  --siae-color-border: rgba(148, 163, 184, 0.2);
+  --siae-radius-sm: 0.5rem;
+  --siae-radius-md: 1rem;
+  --siae-radius-lg: 1.5rem;
+  --siae-space-1: 0.25rem;
+  --siae-space-2: 0.5rem;
+  --siae-space-3: 0.75rem;
+  --siae-space-4: 1rem;
+  --siae-space-6: 1.5rem;
+  --siae-space-8: 2rem;
+  --siae-shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.3);
+  --siae-motion-fast: 150ms ease;
+  --siae-motion-medium: 220ms ease;
+}

@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diagramas de Robustez UI/UX — Sistema SIAE VEN 911</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        darkMode: true,
+        background: '#0a1122',
+        primaryColor: '#1d4ed8',
+        primaryTextColor: '#f8fafc',
+        primaryBorderColor: '#60a5fa',
+        lineColor: '#38bdf8',
+        secondaryColor: '#047857',
+        tertiaryColor: '#1e293b'
+      },
+      fontFamily: 'Inter, sans-serif'
+    });
+  </script>
+  <style>
+    :root {
+      --bg: #060b17;
+      --card-bg: rgba(15, 23, 42, 0.85);
+      --card-border: rgba(51, 65, 85, 0.65);
+      --primary: #38bdf8;
+      --primary-dark: #0284c7;
+      --accent: #ef4444;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --purple: #a855f7;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 2.5rem 1rem;
+      background-image: 
+        radial-gradient(circle at 5% 15%, rgba(56, 189, 248, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 95% 85%, rgba(239, 68, 68, 0.06) 0%, transparent 40%);
+      background-attachment: fixed;
+    }
+
+    .container {
+      max-width: 1160px;
+      margin: 0 auto;
+    }
+
+    header {
+      margin-bottom: 3.5rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .badge-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .badge-primary {
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--primary);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+
+    .badge-purple {
+      background: rgba(168, 85, 247, 0.12);
+      color: var(--purple);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+    }
+
+    .badge-success {
+      background: rgba(16, 185, 129, 0.12);
+      color: var(--success);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.75rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #ffffff;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+
+    .lead {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 880px;
+      line-height: 1.7;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 1.25rem;
+      padding: 2.25rem;
+      margin-bottom: 2.5rem;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+    }
+
+    h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .legend-box {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0 2rem 0;
+      padding: 1.25rem;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(71, 85, 105, 0.4);
+      border-radius: 1rem;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .legend-symbol {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .symbol-boundary {
+      background: rgba(56, 189, 248, 0.15);
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+
+    .symbol-control {
+      background: rgba(245, 158, 11, 0.15);
+      border: 2px solid var(--warning);
+      color: var(--warning);
+      border-radius: 50%;
+    }
+
+    .symbol-entity {
+      background: rgba(16, 185, 129, 0.15);
+      border: 2px solid var(--success);
+      color: var(--success);
+      border-radius: 6px;
+    }
+
+    .legend-text {
+      font-size: 0.85rem;
+      line-height: 1.35;
+    }
+
+    .legend-title {
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .mermaid-box {
+      background: #091021;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 1rem;
+      padding: 1.75rem 1rem;
+      margin: 1.5rem 0;
+      display: flex;
+      justify-content: center;
+      overflow-x: auto;
+    }
+
+    .analysis-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+
+    @media (min-width: 800px) {
+      .analysis-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .analysis-block {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid rgba(71, 85, 105, 0.4);
+      border-radius: 1rem;
+      padding: 1.25rem 1.5rem;
+    }
+
+    .analysis-block-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .analysis-block-title.robust {
+      color: #38bdf8;
+    }
+
+    .analysis-block-title.safety {
+      color: #34d399;
+    }
+
+    .analysis-text {
+      font-size: 0.88rem;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+
+    .code-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      color: #e2e8f0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 3rem 0;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--card-border);
+      margin-top: 4rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="badge-bar">
+        <span class="badge badge-primary">Ingeniería de Usabilidad</span>
+        <span class="badge badge-purple">Metodología ICONIX / UML Robusto</span>
+        <span class="badge badge-success">Misión Crítica VEN 911</span>
+      </div>
+      <h1>Diagramas de Robustez de la UI/UX</h1>
+      <p class="lead">
+        Modelado modular de la interacción en SIAE descomponiendo cada fase en <strong>Objetos Frontera (Boundary)</strong>, <strong>Objetos Control</strong> y <strong>Objetos Entidad</strong>. Este análisis verifica formalmente que no existan puntos de falla ni desconexiones entre lo que el usuario ve, la lógica de triaje y los datos de vida o muerte.
+      </p>
+
+      <!-- LEYENDA CANÓNICA ICONIX -->
+      <div class="legend-box">
+        <div class="legend-item">
+          <div class="legend-symbol symbol-boundary">B</div>
+          <div class="legend-text">
+            <div class="legend-title">Objeto Frontera (Boundary)</div>
+            <span>Vistas, botones táctiles, lectores y sensores que interactúan con el ciudadano.</span>
+          </div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-symbol symbol-control">C</div>
+          <div class="legend-text">
+            <div class="legend-title">Objeto Control (Logic)</div>
+            <span>Gestores de estado, temporizadores, haptics y orquestadores de red.</span>
+          </div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-symbol symbol-entity">E</div>
+          <div class="legend-text">
+            <div class="legend-title">Objeto Entidad (Entity)</div>
+            <span>Almacenamiento persistente en IndexedDB, bases PostGIS y colas de despacho.</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- SECCIÓN 1: FASE FRÍA -->
+    <section class="card">
+      <h2>1. Fase Fría: Registro Preventivo PcD y Despliegue PWA</h2>
+      <p class="section-desc">
+        Modela la interacción preventiva de la persona con discapacidad o su tutor en la Web de escritorio para configurar canales y transferir la identidad a la PWA móvil.
+      </p>
+
+      <div class="mermaid-box">
+        <pre class="mermaid">
+flowchart LR
+    subgraph Frontera["Boundary (UI)"]
+        UI_Reg["Boundary: RegisterForm"]
+        UI_Passkey["Boundary: PasskeyPrompt"]
+        UI_PwaQr["Boundary: PwaInstallQr"]
+    end
+
+    subgraph Control["Control (Lógica)"]
+        Ctrl_Auth["Control: AuthController"]
+        Ctrl_Prof["Control: ProfileManager"]
+    end
+
+    subgraph Entidad["Entity (Persistencia)"]
+        Ent_RemoteUser[("Entity: Server Users")]
+        Ent_LocalProf[("Entity: IndexedDB Profile")]
+    end
+
+    UI_Reg -->|"1. Datos + Discapacidad"| Ctrl_Auth
+    Ctrl_Auth -->|"2. POST /v1/auth/register"| Ent_RemoteUser
+    Ctrl_Auth -->|"3. Prepara perfil PcD"| Ctrl_Prof
+    Ctrl_Prof -->|"4. Guarda ficha local"| Ent_LocalProf
+    Ctrl_Auth -->|"5. Solicita biometría"| UI_Passkey
+    UI_Passkey -->|"6. Pasa a paso instalación"| UI_PwaQr
+        </pre>
+      </div>
+
+      <div class="analysis-grid">
+        <div class="analysis-block">
+          <div class="analysis-block-title robust">🔹 Robustez Técnica de Frontera a Control</div>
+          <p class="analysis-text">
+            La vista <span class="code-tag">RegisterForm</span> valida esquemas estrictos con Zod antes de transmitir al <span class="code-tag">AuthController</span>. La complejidad de capturar discapacidades (sordera, ceguera, motora) se absorbe en frío para no entorpecer el futuro SOS en la calle.
+          </p>
+        </div>
+        <div class="analysis-block">
+          <div class="analysis-block-title safety">🛡️ Resiliencia de Entidad y Puente Móvil</div>
+          <p class="analysis-text">
+            La ficha se persiste en <span class="code-tag">IndexedDB</span> como copia local inmutable. El control <span class="code-tag">PwaInstallQr</span> garantiza el puente cognitivo: el usuario no se queda en el PC, sino que traslada la aplicación a su smartphone antes de salir a la vía pública.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 2: ACTIVACIÓN SOS -->
+    <section class="card">
+      <h2>2. Disparador SOS, Captura Háptica y Control de Tiempo</h2>
+      <p class="section-desc">
+        Asegura que el botón de pánico de 240px confirme la intención deliberada sin falsos toques accidentales y emita confirmación sensorial inmediata.
+      </p>
+
+      <div class="mermaid-box">
+        <pre class="mermaid">
+flowchart LR
+    subgraph Frontera["Boundary (UI & Sensores)"]
+        UI_SosBtn["Boundary: SosFab (240px)"]
+        UI_VoiceBtn["Boundary: VoiceTrigger"]
+        UI_SwitchBtn["Boundary: ExternalSwitch"]
+    end
+
+    subgraph Control["Control (Lógica Táctil)"]
+        Ctrl_PressTimer["Control: LongPressTimer (1s)"]
+        Ctrl_HapticAudio["Control: HapticAudioFeedback"]
+        Ctrl_Nav["Control: NavigationDispatcher"]
+    end
+
+    subgraph Entidad["Entity (Estado)"]
+        Ent_EmergStore[("Entity: EmergencyStore")]
+        Ent_ConfigProf[("Entity: UserSettings (IndexedDB)")]
+    end
+
+    UI_SosBtn -->|"1. PointerDown"| Ctrl_PressTimer
+    Ent_ConfigProf -.->|"Lee tiempo configurado"| Ctrl_PressTimer
+    Ctrl_PressTimer -->|"2. Si completa 1s"| Ctrl_HapticAudio
+    Ctrl_HapticAudio -->|"3. Vibra [80,60,120]ms + Chime"| UI_SosBtn
+    Ctrl_HapticAudio -->|"4. startActivation()"| Ent_EmergStore
+    UI_VoiceBtn -->|"Comando voz"| Ent_EmergStore
+    UI_SwitchBtn -->|"Pulsador BLE"| Ent_EmergStore
+    Ent_EmergStore -->|"5. Dispara avance (250ms)"| Ctrl_Nav
+        </pre>
+      </div>
+
+      <div class="analysis-grid">
+        <div class="analysis-block">
+          <div class="analysis-block-title robust">🔹 Filtro Anti-Falso Positivo</div>
+          <p class="analysis-text">
+            El control <span class="code-tag">LongPressTimer</span> descarta toques fugaces. Si el usuario suelta el dedo antes de los 1000 ms, el temporizador se aborta sin penalización ni cambios de estado en <span class="code-tag">EmergencyStore</span>.
+          </p>
+        </div>
+        <div class="analysis-block">
+          <div class="analysis-block-title safety">🛡️ Redundancia Multimodal para Accesibilidad</div>
+          <p class="analysis-text">
+            Si la persona no puede usar la pantalla táctil por espasticidad o ceguera, los objetos frontera <span class="code-tag">VoiceTrigger</span> y <span class="code-tag">ExternalSwitch</span> se conectan directamente a <span class="code-tag">EmergencyStore</span>, garantizando 3 vías alternativas de entrada.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 3: TIPIFICACIÓN INCLUSIVA -->
+    <section class="card">
+      <h2>3. Tipificación Inclusiva y Escape Rápido (Bypass)</h2>
+      <p class="section-desc">
+        Muestra la orquestación entre la selección de pictogramas ARASAAC, la búsqueda con debounce y el botón de omisión para emergencias extremas.
+      </p>
+
+      <div class="mermaid-box">
+        <pre class="mermaid">
+flowchart LR
+    subgraph Frontera["Boundary (UI)"]
+        UI_PictoGrid["Boundary: PictogramCellGrid"]
+        UI_SearchInput["Boundary: ArasaacSearchInput"]
+        UI_SkipBtn["Boundary: SkipHeaderButton"]
+    end
+
+    subgraph Control["Control (Lógica)"]
+        Ctrl_Typify["Control: TypificationManager"]
+        Ctrl_ArasaacApi["Control: ArasaacClient (Debounce 250ms)"]
+    end
+
+    subgraph Entidad["Entity (Estado)"]
+        Ent_Catalogs[("Entity: IncidentCatalogs (Local)")]
+        Ent_EmergStore[("Entity: EmergencyStore")]
+    end
+
+    Ent_Catalogs -->|"Carga catálogo base"| UI_PictoGrid
+    UI_SearchInput -->|"Texto"| Ctrl_ArasaacApi
+    Ctrl_ArasaacApi -->|"Pictogramas remotos"| UI_PictoGrid
+    UI_PictoGrid -->|"Selección categoría"| Ctrl_Typify
+    Ctrl_Typify -->|"setTipificacion(code, label)"| Ent_EmergStore
+    UI_SkipBtn -->|"Escape inmediato"| Ctrl_Typify
+    Ctrl_Typify -->|"Transición /ubicacion"| Ent_EmergStore
+        </pre>
+      </div>
+
+      <div class="analysis-grid">
+        <div class="analysis-block">
+          <div class="analysis-block-title robust">🔹 Robustez ante Fallos de Red</div>
+          <p class="analysis-text">
+            Si la búsqueda en línea de ARASAAC se degrada, el objeto entidad <span class="code-tag">IncidentCatalogs</span> mantiene en memoria los 4 cuadrantes vitales (Médica, Bomberos, Policía, Tránsito), asegurando que la UI nunca quede en blanco.
+          </p>
+        </div>
+        <div class="analysis-block">
+          <div class="analysis-block-title safety">🛡️ Protección Cognitiva: El Escape «Saltar»</div>
+          <p class="analysis-text">
+            El control <span class="code-tag">SkipHeaderButton</span> actúa como válvula de escape. Si la persona está bajo amenaza de secuestro o asfixia y no puede procesar los pictogramas, pulsar "Saltar" transfiere el control a <span class="code-tag">EmergencyStore</span> en 0 milisegundos.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 4: GEOLOCALIZACIÓN Y POIS -->
+    <section class="card">
+      <h2>4. Geolocalización Pasiva, PostGIS y Puntos de Interés</h2>
+      <p class="section-desc">
+        Ilustra la captura silenciosa de coordenadas satelitales en segundo plano y el catálogo de fallback con los hitos urbanos de Maturín.
+      </p>
+
+      <div class="mermaid-box">
+        <pre class="mermaid">
+flowchart LR
+    subgraph Frontera["Boundary (UI & GPS)"]
+        UI_GpsSensor["Boundary: DeviceGeolocationAPI"]
+        UI_LocationView["Boundary: LocationPageUI"]
+        UI_PoiButtons["Boundary: MaturinPoiCards"]
+    end
+
+    subgraph Control["Control (Lógica Geográfica)"]
+        Ctrl_GeoWatch["Control: GeolocationWatcher"]
+        Ctrl_ReverseGeo["Control: ReverseGeocodeLookup"]
+    end
+
+    subgraph Entidad["Entity (Datos)"]
+        Ent_MaturinPois[("Entity: MATURIN_LANDMARKS")]
+        Ent_EmergStore[("Entity: EmergencyStore")]
+    end
+
+    UI_GpsSensor -->|"Coordenadas brutas (lat, lng)"| Ctrl_GeoWatch
+    Ctrl_GeoWatch -->|"Resuelve dirección aproximada"| Ctrl_ReverseGeo
+    Ctrl_ReverseGeo -->|"Actualiza campo dirección"| UI_LocationView
+    Ent_MaturinPois -->|"Carga HUMNT, Juana, Guaritos"| UI_PoiButtons
+    UI_PoiButtons -->|"Selección manual de hito"| Ctrl_GeoWatch
+    Ctrl_GeoWatch -->|"setUbicacion(lat, lng, accuracy)"| Ent_EmergStore
+        </pre>
+      </div>
+
+      <div class="analysis-grid">
+        <div class="analysis-block">
+          <div class="analysis-block-title robust">🔹 Cero Carga Motriz para el Usuario</div>
+          <p class="analysis-text">
+            La frontera <span class="code-tag">DeviceGeolocationAPI</span> se dispara automáticamente en segundo plano. El ciudadano no tiene que esperar ni presionar botones para que el sistema obtenga la posición satelital.
+          </p>
+        </div>
+        <div class="analysis-block">
+          <div class="analysis-block-title safety">🛡️ Fallback Local Contextualizado</div>
+          <p class="analysis-text">
+            Si la señal GPS se pierde dentro de un edificio o un callejón techado, los botones de frontera <span class="code-tag">MaturinPoiCards</span> inyectan de inmediato coordenadas precalculadas de alta precisión correspondientes a los hitos de Maturín.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 5: CONFIRMACIÓN Y OUTBOX OFFLINE -->
+    <section class="card">
+      <h2>5. Confirmación Fail-Forward y Cola de Salida Offline</h2>
+      <p class="section-desc">
+        Modela el temporizador regresivo de 10 segundos para despacho automático y el almacenamiento en cola IndexedDB ante falta de conectividad celular.
+      </p>
+
+      <div class="mermaid-box">
+        <pre class="mermaid">
+flowchart LR
+    subgraph Frontera["Boundary (UI)"]
+        UI_ConfirmView["Boundary: ConfirmarPageUI"]
+        UI_CountBar["Boundary: CountdownProgressBar (10s)"]
+        UI_CancelBtn["Boundary: CancelEmergencyButton"]
+    end
+
+    subgraph Control["Control (Orquestador de Despacho)"]
+        Ctrl_Countdown["Control: CountdownTimer (10s)"]
+        Ctrl_EmergencySubmit["Control: EmergencySubmitManager"]
+        Ctrl_OutboxSync["Control: OutboxSyncWorker"]
+    end
+
+    subgraph Entidad["Entity (Persistencia)"]
+        Ent_OutboxDb[("Entity: IndexedDB OutboxStore")]
+        Ent_PsapBackend[("Entity: Backend /v1/emergencias")]
+    end
+
+    UI_ConfirmView -->|"Monta componente"| Ctrl_Countdown
+    Ctrl_Countdown -->|"Ticks 10...9...0"| UI_CountBar
+    Ctrl_Countdown -->|"Al expirar o botón Enviar"| Ctrl_EmergencySubmit
+    UI_CancelBtn -->|"Abortar alerta"| Ctrl_Countdown
+    Ctrl_EmergencySubmit -->|"Si hay Internet"| Ent_PsapBackend
+    Ctrl_EmergencySubmit -->|"Si está Offline"| Ent_OutboxDb
+    Ent_OutboxDb -.->|"Evento 'online' / Reintento"| Ctrl_OutboxSync
+    Ctrl_OutboxSync -->|"Transmite pendientes"| Ent_PsapBackend
+        </pre>
+      </div>
+
+      <div class="analysis-grid">
+        <div class="analysis-block">
+          <div class="analysis-block-title robust">🔹 Principio Vital Fail-Forward</div>
+          <p class="analysis-text">
+            El control <span class="code-tag">CountdownTimer</span> elimina la dependencia del toque humano final. Si la persona pierde el conocimiento tras presionar el SOS, el despacho se ejecuta inexorablemente al cumplirse los 10 segundos.
+          </p>
+        </div>
+        <div class="analysis-block">
+          <div class="analysis-block-title safety">🛡️ Resiliencia Sin Conexión (OutboxStore)</div>
+          <p class="analysis-text">
+            Si la red móvil de Maturín colapsa durante la emergencia, el control <span class="code-tag">EmergencySubmitManager</span> almacena el incidente en <span class="code-tag">IndexedDB</span> con etiqueta <span class="code-tag">pendiente</span>, reintentando el envío automáticamente apenas se detecta señal.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 6: PSAP Y SALA WEBRTC -->
+    <section class="card">
+      <h2>6. Triaje Inteligente PSAP y Sala Multicanal</h2>
+      <p class="section-desc">
+        Representa cómo el payload enriquecido con la ficha de discapacidad eleva la prioridad a P0 en la consola del VEN 911 y activa el panel multicanal adaptado.
+      </p>
+
+      <div class="mermaid-box">
+        <pre class="mermaid">
+flowchart LR
+    subgraph Frontera["Boundary (UI Operativa)"]
+        UI_CitizenRoom["Boundary: SalaCiudadano (/sala)"]
+        UI_RttPanel["Boundary: RttLiveChat"]
+        UI_Captions["Boundary: LiveCaptions"]
+        UI_PsapConsole["Boundary: ConsolaDespachoVEN911"]
+    end
+
+    subgraph Control["Control (Lógica de Misión)"]
+        Ctrl_PsapRouter["Control: SmartTriageRouter"]
+        Ctrl_WebRtc["Control: WebRtcMediaController"]
+        Ctrl_AIEngine["Control: LiveCaptionService"]
+    end
+
+    subgraph Entidad["Entity (Conexiones)"]
+        Ent_PsapQueue[("Entity: Cola Prioritaria PSAP (P0-P3)")]
+        Ent_LiveKitRoom[("Entity: Servidor WebRTC LiveKit")]
+    end
+
+    Ctrl_PsapRouter -->|"Evalúa perfil: ¿Es PcD?"| Ent_PsapQueue
+    Ent_PsapQueue -->|"🚨 Eleva a P0 si es Sordo/Ciego"| UI_PsapConsole
+    UI_PsapConsole -->|"Asigna operador e Intérprete LSV"| Ctrl_WebRtc
+    Ctrl_WebRtc -->|"Establece canal bidireccional"| Ent_LiveKitRoom
+    Ent_LiveKitRoom -->|"Video + Audio"| UI_CitizenRoom
+    UI_CitizenRoom -->|"Texto letra a letra"| UI_RttPanel
+    Ctrl_WebRtc -->|"Audio entrante"| Ctrl_AIEngine
+    Ctrl_AIEngine -->|"Subtítulos automáticos"| UI_Captions
+        </pre>
+      </div>
+
+      <div class="analysis-grid">
+        <div class="analysis-block">
+          <div class="analysis-block-title robust">🔹 Discriminación Positiva y Triaje P0</div>
+          <p class="analysis-text">
+            El control <span class="code-tag">SmartTriageRouter</span> inspecciona la entidad del usuario. Si contiene la etiqueta <span class="code-tag">deaf</span>, ubica la llamada al frente de la cola como <strong>P0</strong> y bloquea llamadas de voz ordinarias que la persona sorda no podría contestar.
+          </p>
+        </div>
+        <div class="analysis-block">
+          <div class="analysis-block-title safety">🛡️ Redundancia Comunicacional Simultánea</div>
+          <p class="analysis-text">
+            La sala activa 3 vías concurrentes: video en directo para Lengua de Señas Venezolana, transcripción por <span class="code-tag">LiveCaptions</span> para personas con baja audición y panel <span class="code-tag">RttLiveChat</span> para entornos donde la voz está comprometida.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONCLUSIÓN DE ROBUSTEZ -->
+    <section class="card" style="border-left: 4px solid var(--primary);">
+      <h2>7. Dictamen Final de Robustez UI/UX</h2>
+      <p>
+        El modelado de robustez demuestra que la interfaz de SIAE no es un diseño cosmético superficial, sino una <strong>máquina de estados finitos altamente desacoplada y tolerante a fallos</strong>:
+      </p>
+      <ul style="margin-left: 1.5rem; color: #cbd5e1; font-size: 0.95rem; line-height: 1.8;">
+        <li><strong>Sin dependencias circulares:</strong> Todas las transiciones de frontera fluyen ordenadamente hacia controles que garantizan la persistencia en entidades locales antes de intentar llamadas de red.</li>
+        <li><strong>Aislamiento de complejidad:</strong> La configuración de datos médicos y canales se gestiona en frío en la Web, permitiendo que la fase caliente en la PWA móvil opere con cero formularios y cero latencia cognitiva.</li>
+        <li><strong>Blindaje ante desastres:</strong> La integración de <span class="code-tag">IndexedDB Outbox</span>, el disparo regresivo <span class="code-tag">Fail-Forward</span> y el catálogo de hitos de Maturín aseguran el éxito de la llamada de auxilio incluso sin satélite o sin cobertura de datos.</li>
+      </ul>
+    </section>
+
+    <footer>
+      Sistema Inclusivo de Atención a Emergencias (SIAE) · VEN 911 Maturín, Estado Monagas<br>
+      Especificación de Robustez de Software e Interacción Humano-Computador (HCI)
+    </footer>
+  </div>
+
+</body>
+</html>

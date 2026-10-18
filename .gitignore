@@ -1,0 +1,56 @@
+# Dependencies and package-manager caches
+/node_modules/
+/.pnp
+.pnp.*
+/.yarn/*
+!/.yarn/patches/
+!/.yarn/plugins/
+!/.yarn/releases/
+!/.yarn/versions/
+
+# Next.js and production output
+/.next/
+/out/
+/build/
+/.vercel/
+/.turbo/
+
+# Generated test and audit reports
+/coverage/
+/playwright-report/
+/test-results/
+/blob-report/
+
+# Local environment files; keep safe templates versioned
+.env*
+!.env.example
+!.env.*.example
+
+# Generated local data
+/logs/
+*.log
+
+# Per-developer files that should stay only on this machine
+/.local/
+
+# TypeScript generated files
+*.tsbuildinfo
+next-env.d.ts
+
+# Local certificates and private keys
+*.pem
+*.p8
+*.key
+**/*.pdf
+
+# Documentation and agent instructions remain versioned.
+README.html
+skills-lock.json
+/specs/
+**/specs/
+**/.specify/
+**/.kiro/
+**/.agents/
+**/.opencode/
+**/.evidence/
+/Grpc/

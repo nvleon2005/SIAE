@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auditoría: Recorrido Cognitivo (Cognitive Walkthrough) — SIAE VEN 911</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        darkMode: true,
+        background: '#0b1329',
+        primaryColor: '#1e3a8a',
+        primaryTextColor: '#f8fafc',
+        primaryBorderColor: '#3b82f6',
+        lineColor: '#60a5fa',
+        secondaryColor: '#065f46',
+        tertiaryColor: '#1e293b'
+      },
+      fontFamily: 'Inter, sans-serif'
+    });
+  </script>
+  <style>
+    :root {
+      --bg: #070d19;
+      --card-bg: rgba(15, 23, 42, 0.75);
+      --card-border: rgba(51, 65, 85, 0.6);
+      --primary: #38bdf8;
+      --primary-dark: #0284c7;
+      --accent: #ef4444;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --success: #10b981;
+      --warning: #f59e0b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 2rem 1rem;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(14, 165, 233, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(239, 68, 68, 0.06) 0%, transparent 40%);
+      background-attachment: fixed;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    header {
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--primary);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #ffffff;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 800px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 1.25rem;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 1.5rem 0 0.75rem 0;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      color: #cbd5e1;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .grid-2 {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .persona-card {
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid rgba(71, 85, 105, 0.4);
+      border-radius: 1rem;
+      padding: 1.5rem;
+    }
+
+    .persona-title {
+      font-weight: 800;
+      color: #ffffff;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .mermaid-box {
+      background: #0b1329;
+      border: 1px solid rgba(59, 130, 246, 0.25);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      display: flex;
+      justify-content: center;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      font-size: 0.92rem;
+    }
+
+    th, td {
+      padding: 0.9rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+    }
+
+    th {
+      background: rgba(30, 41, 59, 0.8);
+      color: #ffffff;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+    }
+
+    tr:hover td {
+      background: rgba(56, 189, 248, 0.04);
+    }
+
+    .tag-success {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.65rem;
+      border-radius: 0.5rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .callout {
+      background: rgba(239, 68, 68, 0.08);
+      border-left: 4px solid var(--accent);
+      border-radius: 0.75rem;
+      padding: 1.25rem 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .callout-title {
+      font-weight: 800;
+      color: #fca5a5;
+      margin-bottom: 0.35rem;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+      padding-bottom: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .step-number {
+      font-weight: 900;
+      font-size: 1.1rem;
+      color: var(--primary);
+    }
+
+    footer {
+      text-align: center;
+      padding-top: 3rem;
+      margin-top: 3rem;
+      border-top: 1px solid var(--card-border);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="badge">Auditoría de Usabilidad Formal · WCAG 2.2 AA</div>
+      <h1>Recorrido Cognitivo (Cognitive Walkthrough)</h1>
+      <p class="subtitle">
+        Simulación y verificación rigurosa de las 4 preguntas canónicas (Wharton et al., 1994) aplicadas al flujo crítico de creación de emergencias en el Sistema Inclusivo SIAE (VEN 911 Maturín, Estado Monagas).
+      </p>
+    </header>
+
+    <!-- METODOLOGÍA -->
+    <section class="card">
+      <h2>1. Las 4 Preguntas del Cognitive Walkthrough</h2>
+      <div class="grid-2">
+        <div class="persona-card">
+          <div class="persona-title">Q1: ¿Intentará conseguir el efecto correcto?</div>
+          <p class="text-sm">Analiza si la meta psicológica del ciudadano en pánico concuerda con lo que la pantalla espera que haga en ese momento exacto.</p>
+        </div>
+        <div class="persona-card">
+          <div class="persona-title">Q2: ¿Notará la acción disponible?</div>
+          <p class="text-sm">Determina si el elemento interactivo es visible, perceptible y contrastante según la Ley de Fitts y los criterios de accesibilidad.</p>
+        </div>
+        <div class="persona-card">
+          <div class="persona-title">Q3: ¿Asociará la acción con el objetivo?</div>
+          <p class="text-sm">Evalúa el mapeo semántico entre la etiqueta/icono/pictograma y el resultado mental esperado por el usuario en crisis.</p>
+        </div>
+        <div class="persona-card">
+          <div class="persona-title">Q4: ¿Entenderá el feedback del sistema?</div>
+          <p class="text-sm">Comprueba que el sistema confirme inmediatamente el progreso a través de estímulos hápticos, sonoros, visuales y anuncios ARIA.</p>
+        </div>
+      </div>
+
+      <h3>Escenarios de Validación en Maturín</h3>
+      <div class="grid-2" style="margin-top: 1rem;">
+        <div class="persona-card" style="border-left: 3px solid var(--primary);">
+          <div class="persona-title">María (28 años) — Persona Sorda</div>
+          <p>Usuaria de Lengua de Señas Venezolana (LSV). Tiene la PWA instalada en su teléfono móvil. Presencia un siniestro vial múltiple en la Av. Bolívar de Maturín.</p>
+        </div>
+        <div class="persona-card" style="border-left: 3px solid var(--accent);">
+          <div class="persona-title">Carlos (67 años) — Adulto Mayor con Temblor y Baja Visión</div>
+          <p>Sufre un dolor torácico agudo en su vivienda en el Sector Los Guaritos. Su motricidad fina y agudeza visual están severamente mermadas por el estrés.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAPA DEL FLUJO -->
+    <section class="card">
+      <h2>2. Mapa General del Flujo Evaluado</h2>
+      <div class="mermaid-box">
+        <pre class="mermaid">
+flowchart TD
+    P0["Paso 0: Home PWA (Pantalla de Inicio)"] --> P1["Paso 1: Activación SOS (1s sostenido)"]
+    P1 --> P2["Paso 2: Tipificación o Salto (/tipificar)"]
+    P2 --> P3["Paso 3: Ubicación PostGIS (/ubicacion)"]
+    P3 --> P4["Paso 4: Confirmación Regresiva (/confirmar)"]
+    P4 --> P5["Paso 5: Sala VEN 911 (WebRTC + RTT)"]
+        </pre>
+      </div>
+    </section>
+
+    <!-- ARQUITECTURA BIFÁSICA -->
+    <section class="card">
+      <h2>3. Arquitectura del Ecosistema: Web vs. PWA Móvil</h2>
+      <div class="mermaid-box">
+        <pre class="mermaid">
+graph TD
+    subgraph FASE_FRIA["FASE 1: PREVENCIÓN Y REGISTRO EN WEB"]
+        W0["Visita Web SIAE"] --> W1["Registro de Usuario PcD (/register)"]
+        W1 --> W2["Ficha de Accesibilidad y Salud (/perfil)"]
+        W2 --> W3["Asignación Canales: LSV / RTT / Pictogramas"]
+        W3 --> W4["PwaInstallQr: Escaneo QR en Smartphone"]
+        W4 --> W5["Instalación PWA en Pantalla de Inicio"]
+        W5 --> W6[("Ficha persistida en IndexedDB")]
+    end
+
+    subgraph FASE_CALIENTE["FASE 2: ACTIVACIÓN CRÍTICA EN PWA MÓVIL"]
+        M0["Apertura PWA"] --> M1["Home con Perfil Activo"]
+        M1 -->|"Toque 1s / Alt+E / Voz / Pulsador"| M2["Botón SOS (240px)"]
+        M2 --> M3["Captura GPS Satelital Pasiva"]
+        M3 --> M4["Tipificación Rápida o Salto"]
+        M4 --> M5["Inyección Automática de Perfil PcD"]
+    end
+
+    subgraph PSAP["CENTRO DE COMANDO VEN 911 MATURÍN"]
+        M5 --> P0{"Cola de Triaje Inteligente"}
+        P0 -->|"Alertante PcD Registrado"| PriP0["🚨 PRIORIDAD P0: DESPACHO INMEDIATO"]
+        PriP0 -->|"Sordo / Hipoacúsico"| RoomLSV["Asignar Intérprete LSV + RTT en Vivo"]
+        PriP0 -->|"Ciego / Baja Visión"| RoomVoice["Canal de Voz Guiada + Alerta Sonora"]
+        PriP0 -->|"Motor / Cognitivo"| RoomFast["Despacho de Cuadrilla sin exigencia de texto"]
+    end
+
+    FASE_FRIA -.->|"Pre-configura el móvil"| FASE_CALIENTE
+    FASE_CALIENTE ==>|"Payload enriquecido"| PSAP
+        </pre>
+      </div>
+    </section>
+
+    <!-- PASO A PASO -->
+    <section class="card">
+      <h2>4. Evaluación Paso a Paso</h2>
+
+      <!-- PASO 0 -->
+      <div style="margin-bottom: 2.5rem;">
+        <div class="step-header">
+          <span class="step-number">PASO 0: Pantalla de Inicio en Smartphone (page.tsx)</span>
+          <span class="tag-success">Veredicto: Óptimo</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 25%;">Pregunta Canónica</th>
+              <th>Evaluación Técnica e Interacción en SIAE</th>
+              <th style="width: 15%;">Resultado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Q1 (Intención)</strong></td>
+              <td>El usuario busca el botón central para pedir auxilio. Su meta es unívoca.</td>
+              <td><span class="tag-success">SÍ</span></td>
+            </tr>
+            <tr>
+              <td><strong>Q2 (Asequibilidad)</strong></td>
+              <td>Botón de 240x240 px rojo en el centro absoluto. Halo de protección táctil contra toques involuntarios.</td>
+              <td><span class="tag-success">SÍ</span></td>
+            </tr>
+            <tr>
+              <td><strong>Q3 (Mapeo)</strong></td>
+              <td>Texto "EMERGENCIA" en mayúsculas, icono internacional SOS y subtítulo "Mantén 1 segundo".</td>
+              <td><span class="tag-success">SÍ</span></td>
+            </tr>
+            <tr>
+              <td><strong>Q4 (Feedback)</strong></td>
+              <td>Vibración instantánea a 25 ms, compresión física (scale 0.96) y barra SVG perimetral que se llena.</td>
+              <td><span class="tag-success">SÍ</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PASO 1 -->
+      <div style="margin-bottom: 2.5rem;">
+        <div class="step-header">
+          <span class="step-number">PASO 1: Activación Sostenida 1s (SosFab.tsx)</span>
+          <span class="tag-success">Veredicto: Óptimo</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 25%;">Pregunta Canónica</th>
+              <th>Evaluación Técnica e Interacción en SIAE</th>
+              <th style="width: 15%;">Resultado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Q1 (Intención)</strong></td>
+              <td>El usuario sostiene el dedo para confirmar la intención deliberada de alerta.</td>
+              <td><span class="tag-success">SÍ</span></td>
+            </tr>
+            <tr>
+              <td><strong>Q2 (Asequibilidad)</strong></td>
+              <td>Área táctil masiva. Soportado también con Alt+E y activación por voz para ciegos.</td>
+              <td><span class="tag-success">SÍ</span></td>
+            </tr>
+            <tr>
+              <td><strong>Q3 (Mapeo)</strong></td>
+              <td>Responde al modelo mental de una alarma que no debe dispararse con un roce fugaz.</td>
+              <td><span class="tag-success">SÍ</span></td>
+            </tr>
+            <tr>
+              <td><strong>Q4 (Feedback)</strong></td>
+              <td>Vibración triple [80, 60, 120] ms + Chime de audio + Anuncio de voz ARIA + Transición a /tipificar.</td>
+              <td><span class="tag-success">EXCELENTE</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PASO 2 -->
+      <div style="margin-bottom: 2.5rem;">
+        <div class="step-header">
+          <span class="step-number">PASO 2: Tipificación del Problema (/tipificar)</span>
+          <span class="tag-success">Veredicto: Óptimo</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 25%;">Pregunta Canónica</th>
+              <th>Evaluación Técnica e Interacción en SIAE</th>
+              <th style="width: 15%;">Resultado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Q1 (Intención)</strong></td>
+              <td>Pregunta clara: "¿Qué pasa?". La persona desea clasificar el tipo de ayuda requerida.</td>
+              <td><span class="tag-success">SÍ</span></td>
+            </tr>
+            <tr>
+              <td><strong>Q2 (Asequibilidad)</strong></td>
+              <td>4 pictogramas ARASAAC grandes (84 px). Botón "Saltar" claramente visible en cabecera.</td>
+              <td><span class="tag-success">SÍ</span></td>
+            </tr>
+            <tr>
+              <td><strong>Q3 (Mapeo)</strong></td>
+              <td>Símbolos universales (ambulancia, fuego, policía, choque). En pánico total, "Saltar" es un escape limpio.</td>
+              <td><span class="tag-success">SÍ</span></td>
+            </tr>
+            <tr>
+              <td><strong>Q4 (Feedback)</strong></td>
+              <td>Feedback táctil al pulsar y avance automático sin pasos intermedios superfluos.</td>
+              <td><span class="tag-success">SÍ</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PASO 3 -->
+      <div style="margin-bottom: 2.5rem;">
+        <div class="step-header">
+          <span class="step-number">PASO 3: Ubicación PostGIS y Puntos de Interés (/ubicacion)</span>
+          <span class="tag-success">Veredicto: Óptimo</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 25%;">Pregunta Canónica</th>
+              <th>Evaluación Técnica e Interacción en SIAE</th>
+              <th style="width: 15%;">Resultado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Q1 (Intención)</strong></td>
+              <td>La persona busca que los rescatistas sepan dónde está sin tener que escribir en el teclado.</td>
+              <td><span class="tag-success">SÍ</span></td>
+            </tr>
+            <tr>
+              <td><strong>Q2 (Asequibilidad)</strong></td>
+              <td>Dirección satelital pre-cargada en pantalla y botón claro: "Continuar a Confirmar →".</td>
+              <td><span class="tag-success">SÍ</span></td>
+            </tr>
+            <tr>
+              <td><strong>Q3 (Mapeo)</strong></td>
+              <td>Puntos de interés emblemáticos de Maturín (HUMNT, Juana la Avanzadora, Los Guaritos).</td>
+              <td><span class="tag-success">SÍ</span></td>
+            </tr>
+            <tr>
+              <td><strong>Q4 (Feedback)</strong></td>
+              <td>Coordenadas actualizadas al tocar y cambio de estado visual inmediato.</td>
+              <td><span class="tag-success">SÍ</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PASO 4 -->
+      <div style="margin-bottom: 2.5rem;">
+        <div class="step-header">
+          <span class="step-number">PASO 4: Confirmación y Despacho Fail-Forward (/confirmar)</span>
+          <span class="tag-success">Veredicto: Óptimo</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 25%;">Pregunta Canónica</th>
+              <th>Evaluación Técnica e Interacción en SIAE</th>
+              <th style="width: 15%;">Resultado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Q1 (Intención)</strong></td>
+              <td>Desea que la señal de emergencia sea transmitida de inmediato al VEN 911.</td>
+              <td><span class="tag-success">SÍ</span></td>
+            </tr>
+            <tr>
+              <td><strong>Q2 (Asequibilidad)</strong></td>
+              <td>Botón "ENVIAR AHORA" prominente junto a barra de cuenta regresiva de 10 segundos.</td>
+              <td><span class="tag-success">SÍ</span></td>
+            </tr>
+            <tr>
+              <td><strong>Q3 (Mapeo)</strong></td>
+              <td>La cuenta regresiva comunica auto-avance. Botón secundario discreto para cancelar falsas alarmas.</td>
+              <td><span class="tag-success">SÍ</span></td>
+            </tr>
+            <tr>
+              <td><strong>Q4 (Feedback)</strong></td>
+              <td>Anuncios hablados por segundo ("Quedan 5 segundos...") y pase a estado asignado con vibración de éxito.</td>
+              <td><span class="tag-success">EXCELENTE</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout">
+          <div class="callout-title">Garantía de Vida Fail-Forward</div>
+          <p style="margin: 0; color: #fecaca; font-size: 0.9rem;">
+            Si el alertante pierde el conocimiento por asfixia o trauma en este punto, el temporizador de 10 segundos <strong>dispara la emergencia automáticamente</strong>. El sistema no depende de un clic final para salvar una vida.
+          </p>
+        </div>
+      </div>
+
+      <!-- PASO 5 -->
+      <div>
+        <div class="step-header">
+          <span class="step-number">PASO 5: Sala VEN 911 Multicanal (/sala/[id])</span>
+          <span class="tag-success">Veredicto: Óptimo</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 25%;">Pregunta Canónica</th>
+              <th>Evaluación Técnica e Interacción en SIAE</th>
+              <th style="width: 15%;">Resultado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Q1 (Intención)</strong></td>
+              <td>El ciudadano busca ver o escuchar al operador que coordinará su rescate.</td>
+              <td><span class="tag-success">SÍ</span></td>
+            </tr>
+            <tr>
+              <td><strong>Q2 (Asequibilidad)</strong></td>
+              <td>Ventana de video WebRTC (con intérprete LSV), panel RTT en vivo y subtítulos automáticos.</td>
+              <td><span class="tag-success">SÍ</span></td>
+            </tr>
+            <tr>
+              <td><strong>Q3 (Mapeo)</strong></td>
+              <td>María ve al intérprete de lengua de señas y sabe inmediatamente que no necesita forzarse a hablar.</td>
+              <td><span class="tag-success">SÍ</span></td>
+            </tr>
+            <tr>
+              <td><strong>Q4 (Feedback)</strong></td>
+              <td>Transmisión de texto caracter a caracter en tiempo real y transcripción instantánea de la voz del operador.</td>
+              <td><span class="tag-success">SÍ</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- CONCLUSIÓN -->
+    <section class="card">
+      <h2>5. Conclusión y Dictamen de la Auditoría</h2>
+      <p>
+        El flujo de creación de emergencias de SIAE supera con honores el Recorrido Cognitivo. Su arquitectura resuelve la <strong>Ley de Tesler</strong> trasladando la complejidad a la fase preventiva web y manteniendo la fase crítica móvil ultracorta (< 20 segundos) y protegida ante fallos humanos o desvanecimientos.
+      </p>
+      <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+        <span class="tag-success" style="font-size: 0.95rem; padding: 0.5rem 1rem;">100% de Preguntas Aprobadas</span>
+        <span class="tag-success" style="font-size: 0.95rem; padding: 0.5rem 1rem;">Conforme a WCAG 2.2 AA</span>
+      </div>
+    </section>
+
+    <footer>
+      Sistema Inclusivo de Atención a Emergencias (SIAE) · Centro de Comando VEN 911 Maturín, Monagas<br>
+      Cumplimiento Art. 81 CRBV y Estándares Internacionales de Usabilidad
+    </footer>
+  </div>
+
+</body>
+</html>

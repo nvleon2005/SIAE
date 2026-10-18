@@ -1,0 +1,76 @@
+{
+  "name": "SIAE - Emergencias Accesibles",
+  "short_name": "SIAE",
+  "description": "Sistema Inclusivo de Atención a Emergencias",
+  "id": "/?source=pwa",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#D32F2F",
+  "lang": "es",
+  "dir": "ltr",
+  "categories": ["medical", "utilities", "government"],
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Emergencia",
+      "short_name": "SOS",
+      "description": "Activar emergencia",
+      "url": "/?action=emergency",
+      "icons": [
+        { "src": "/icons/icon-192.svg", "sizes": "192x192", "type": "image/svg+xml" }
+      ]
+    },
+    {
+      "name": "Camino Seguro",
+      "short_name": "Seguro",
+      "description": "Activar Camino Seguro",
+      "url": "/camino-seguro",
+      "icons": [
+        { "src": "/icons/icon-192.svg", "sizes": "192x192", "type": "image/svg+xml" }
+      ]
+    },
+    {
+      "name": "Consola Operador PSAP",
+      "short_name": "Operador",
+      "description": "Puesto de Triaje y Atención Telefónica VEN 911",
+      "url": "/operador",
+      "icons": [
+        { "src": "/icons/icon-192.svg", "sizes": "192x192", "type": "image/svg+xml" }
+      ]
+    },
+    {
+      "name": "Consola Despachador CAD",
+      "short_name": "Despachador",
+      "description": "Puesto Táctico CAD y Articulación a Entes",
+      "url": "/despachador",
+      "icons": [
+        { "src": "/icons/icon-192.svg", "sizes": "192x192", "type": "image/svg+xml" }
+      ]
+    },
+    {
+      "name": "Panel Estratégico Administrador",
+      "short_name": "Admin",
+      "description": "Centro de Operaciones y KPIs VEN 911",
+      "url": "/dashboard",
+      "icons": [
+        { "src": "/icons/icon-192.svg", "sizes": "192x192", "type": "image/svg+xml" }
+      ]
+    }
+  ]
+}
